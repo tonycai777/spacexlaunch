@@ -1,23 +1,45 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-function App() {
+const App = () => {
+
+  const getLaunchJson = async () => {
+    const launchUrl = "https://api.spacexdata.com/v5/launches/query";
+    const launchBody = {
+      "query": {
+        "upcoming": true
+      },
+      "options": {
+        "limit": 5,
+        "sort": {
+          "flight_number": "asc"
+        },
+        "populate": ["launchpad"]
+      }
+    }
+
+    const options = {
+      headers: {
+        Accept: "application/json", "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify(launchBody)
+    }
+
+    const response = await fetch(launchUrl, options)
+    const responseJson = await response.json();
+    console.log(responseJson.docs);
+  }
+
+  useEffect(() => {
+   getLaunchJson();
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="LaunchTimer">
+      <p>
+        HI
+      </p>
     </div>
   );
 }
