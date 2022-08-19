@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import LaunchTimer from './components/LaunchTimer';
 
 const App = () => {
+  const [docs, setDocs] = useState([]);
 
   const getLaunchJson = async () => {
     const launchUrl = "https://api.spacexdata.com/v5/launches/query";
@@ -10,7 +12,7 @@ const App = () => {
         "upcoming": true
       },
       "options": {
-        "limit": 5,
+        "limit": 1,
         "sort": {
           "flight_number": "asc"
         },
@@ -28,18 +30,20 @@ const App = () => {
 
     const response = await fetch(launchUrl, options)
     const responseJson = await response.json();
-    console.log(responseJson.docs);
+
+    setDocs(responseJson.docs);
+    return;
   }
 
   useEffect(() => {
    getLaunchJson();
-  });
+  }, []);
 
   return (
     <div className="LaunchTimer">
-      <p>
-        HI
-      </p>
+      <div>
+        <LaunchTimer docs = {docs}/>
+      </div>
     </div>
   );
 }
