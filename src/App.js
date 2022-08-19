@@ -12,7 +12,7 @@ const App = () => {
         "upcoming": true
       },
       "options": {
-        "limit": 1,
+        "limit": 5,
         "sort": {
           "flight_number": "asc"
         },
